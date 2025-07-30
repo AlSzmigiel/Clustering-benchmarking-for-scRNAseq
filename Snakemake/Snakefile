@@ -1,0 +1,479 @@
+from itertools import product
+import glob
+import os
+configfile: "config.yaml"
+from parse_config import *
+
+cfg = PrepConfig(config)
+
+# output_snakemake = []
+# for dataset in cfg.get_subdata_names():
+#     wildcards = cfg.get_possible_output(dataset)
+#     output_snakemake.append(expand("benchmark_analysis/metrics/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.summary.txt",**wildcards))
+
+
+def get_all_outputs(cfg):
+    output_snakemake = []
+    for dataset in cfg.get_subdata_names():
+        # Check if the dataset file exists in benchmark_analysis/normalized_data
+        dataset_file = os.path.join("benchmark_analysis", "normalized_adata", f"{dataset}.h5ad")
+        if os.path.isfile(dataset_file):
+            # Only if the file exists do we call get_possible_output and expand
+            wildcards = cfg.get_possible_output(dataset)
+            expanded_outputs = expand(
+                "benchmark_analysis/metrics/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.summary.txt",
+                **wildcards
+            )
+            output_snakemake.extend(expanded_outputs)
+        else:
+            # If the file does not exist, skip this dataset
+            continue
+    return output_snakemake
+# print(output_snakemake)
+
+
+
+# # for dataset in cfg.get_datasets():
+# #     wildcards = cfg.get_possible_output(dataset)
+# #     output_snakemake.append(expand("analysis/metrics/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.summary.txt",**wildcards))
+
+# print(output_snakemake)
+
+
+# def gather_outputs():
+#     output_snakemake = []
+#     for dataset in cfg.get_datasets():
+#         wildcards = cfg.get_possible_output(dataset)
+#         output_snakemake.append(
+#             expand(
+#                 "analysis/metrics/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.summary.txt",
+#                 **wildcards
+#             )
+#         )
+#     return output_snakemake
+
+#print(cfg.DATASETS)
+
+#print(cfg.get_from_dir('Tian'))
+
+#samples=os.listdir(config["dataset_dir"])
+#sample_pfxes = list(map(lambda p: p[:p.rfind('.')],samples))
+
+
+# def generate_combinations(sample_pfxes,kn, methods, reps, nns,clust_method,resolution):
+#     combinations = []
+    
+#     for sample,k, method, rep, nn,clust,res in product(sample_pfxes,kn, methods, reps, nns,clust_method,resolution):
+#         if not nn:
+#             k = 0
+#         if method == 'umap' and not nn:
+#             continue
+        
+#         filename = f"analysis/metrics/{sample}.{rep}.{method}.{k}n_{nn}.{clust}_{res}.summary.txt"
+
+#         combinations.append(filename)
+    
+#     return list(set(combinations))
+# kn=[5]
+# methods=['umap']
+# reps=['X']
+# nns=[True, False]
+# clust_method=['leiden']
+# resolution=[1.2]
+
+#INFILES = generate_combinations(sample_pfxes,config['kclusters'], config['graph_method'], config['reps'], config['nns'],config['clust_method'],config['resolution'])
+
+# wildcards_true=[]
+# wildcards_false=[]
+
+# wildcards_true=cfg.get_possible_output(nns='True')
+# wildcards_false=cfg.get_possible_output(nns='False')
+# print(wildcards_false)
+# print(wildcards_false)
+
+# if len(cfg.get_graph_parameters('nns'))>1:
+
+#     input_1=expand("analysis/clustering/{dataset}/{clust_method}_clustering/{graph_method}_graph/{dist_metric}.{neighbors}n_{nns}.h5ad",**wildcards_true)
+#     input_2=expand("analysis/clustering/{dataset}/{clust_method}_clustering/{graph_method}_graph/{dist_metric}.{neighbors}n_{nns}.h5ad",**wildcards_false)
+# elif ('True' in cfg.get_graph_parameters('nns')):
+#     input_1=expand("analysis/clustering/{dataset}/{clust_method}_clustering/{graph_method}_graph/{dist_metric}.{neighbors}n_{nns}.h5ad",**wildcards_true)
+#     input_2=[]
+# else:
+#     input_1=[]
+#     input_2=expand("analysis/clustering/{dataset}/{clust_method}_clustering/{graph_method}_graph/{dist_metric}.{neighbors}n_{nns}.h5ad",**wildcards_false)
+
+
+
+
+# if len(cfg.get_graph_parameters('nns'))>1:
+
+#     input_1.append(expand("analysis/metrics/{dataset}/{data}/{clust_method}/{graph_method}/{dist_metric}.{neighbors}n_{nns}.summary.txt",**wildcards_true))
+#     input_2.append(expand("analysis/metrics/{dataset}/{data}/{clust_method}/{graph_method}/{dist_metric}.{neighbors}n_{nns}.summary.txt",**wildcards_false))
+# elif ('True' in cfg.get_graph_parameters('nns')):
+#     input_1.append(expand("analysis/metrics/{dataset}/{data}/{clust_method}/{graph_method}/{dist_metric}.{neighbors}n_{nns}.summary.txt",**wildcards_true))
+#     input_2=[]
+# else:
+#     input_1=[]
+#     input_2.append(expand("analysis/metrics/{dataset}/{data}/{clust_method}/{graph_method}/{dist_metric}.{neighbors}n_{nns}.summary.txt",**wildcards_false))
+
+
+# Combinations has to be restricted, separate inputs for KNN graph and graph that does not 
+# consider neigbors - with this one only gaussian weighting can be applied.
+# Iteration over different datasets (sometimes multiple datasets from one publication),
+# This structure of datasets could also allow to store differently processed versions of dataset
+# in one general folder
+#
+
+#print(input_1)
+#print(input_2)
+
+
+# rule all:
+#     input:
+#         input_1,
+#         input_2
+        #expand("analysis/clustering/{dataset}/{clust_method}/{method}.{neighbors}n_{nns}.h5ad",**wildcards_true),
+        #expand("analysis/clustering/{dataset}/{clust_method}/{method}.{neighbors}n_{nns}.h5ad",**wildcards_false),
+        #expand("analysis/clustering/{dataset}/{method_clust}/{method}.{neighbors}n_{nns}.h5ad",dataset=cfg.get_datasets(),method_clust=cfg.get_clustering_methods())
+        #expand('analysis/metrics/{dataset}/summary.csv', dataset=sample_pfxes)
+
+
+
+#restric to certain combinations to net get error during run, zip function
+
+#rule all:
+#   input:
+ #       expand(os.path.join("analysis","graphs","{dataset}/{rep}/{method}/{k}_{nn}.h5ad"), dataset=sample_pfxes,k=kn,rep=reps,method=methods,nn=nns)
+
+#rule all: 
+ #   input:
+  #      expand(os.path.join("analysis","graphs","{dataset}.h5ad"), dataset=sample_pfxes)
+#rule download_datasets:
+    
+
+
+
+
+#rule process_data:
+#    input: adata="/work/Master_Project/raw_data"
+
+# for dataset in cfg.get_datasets():
+#     if dataset == 'Tian':
+#         processed_files.append(f"{dataset.lower()}.h5ad")
+#         wildcards = cfg.get_possible_output(dataset)
+
+
+# #     wildcards = cfg.get_possible_output(dataset)
+# #     output_snakemake.append(expand("analysis/processed/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.summary.txt.h5ad",**wildcards))
+# def get_processed_file_names(config):
+#     processed_files = []
+#     for dataset, details in config["datasets"].items():
+#         if details["type"] == "single":
+#             processed_files.append(f"{dataset.lower()}.h5ad")
+#         elif details["type"] == "multi":
+#             sub_files = ["sub1", "sub2", "sub3"]  # Replace with dynamic detection if necessary
+#             processed_files.extend(f"{dataset.lower()}_{sub}.h5ad" for sub in sub_files)
+#     return processed_files
+
+print(cfg.get_subdata_names())
+print(cfg.get_silver_standard())
+print(expand("transfer_learning/models/{version}-scvi-{organism}/scvi.model/model.pt",
+            version=cfg.get_from_tl('census_version'),
+            organism=cfg.get_from_tl('organism')))
+dataset="|".join(cfg.get_silver_standard())
+print(dataset)
+print(expand("transfer_learning/ref_embeddings/{organism_tissue}/scvi_embedding.h5ad",
+ organism_tissue = cfg.get_organisms_silver()))
+print(cfg.get_data_ids_cellxgene())
+# # print(output_file)
+# datasets = cfg.get_datasets()
+# print(datasets)
+
+print(get_all_outputs(cfg))
+
+rule all:
+    input:
+        #expand("processed_adata/{dataset}.h5ad", dataset=cfg.get_subdata_names()),
+        #expand("transfer_learning/models/{version}-scvi-{organism}/scvi.model/model.pt",
+        #     version=cfg.get_from_tl('census_version'),
+        #     organism=cfg.get_from_tl('organism')
+        # ),
+        #expand("transfer_learning/{dataset}/{dataset}-tf-labels.h5ad", dataset=cfg.get_silver_standard()),
+        #expand("transfer_learning/{dataset}/training_data.h5ad",  dataset=cfg.get_silver_standard()),
+        #expand(
+        #    "transfer_learning/ref_embeddings/{organism}/{tissue}/scvi_embedding.h5ad",
+        #    zip,
+        #     organism=[pair[0] for pair in cfg.get_valid_organism_tissue_pairs()],
+        #     tissue=[pair[1] for pair in cfg.get_valid_organism_tissue_pairs()]
+        # ),
+        #expand("transfer_learning/silver_datasets/{dataset}/{dataset}-emb.h5ad",dataset=cfg.get_silver_standard()),
+        #expand("transfer_learning/silver_datasets/{dataset}/{dataset}-new_lab.h5ad",dataset=cfg.get_silver_standard()),
+        expand("benchmark_analysis/normalized_adata/{dataset}.h5ad", dataset = cfg.get_subdata_names()),
+        get_all_outputs(cfg)
+        # expand("analysis/clustering/{dataset}/{rep}/{method}/{k}n_{nn}/{clust_method}_{res}.h5ad")
+        
+
+rule download_cellxgene:
+    output:
+        processed_file="processed_adata/{dataset}.h5ad"
+    params:
+        #download_link=lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key="download_script"),
+        dataset_id = lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key="dataset_id")
+    wildcard_constraints:
+        dataset="[a-zA-Z0-9]+_cxg" 
+    conda:
+        "my-environment.yaml"
+    script:
+        "scripts/get_cellxgene_data.py"
+#    shell:
+#        """
+#        wget -O {output.processed_file} {params.download_link}
+#        """
+
+rule download_datasets:
+    output:
+         touch("raw_data/{dataset}/.done")
+    params:
+        script=lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key="download_script"),
+        output_dir= lambda wildcards:  f"raw_data/{wildcards.dataset}"
+    shell:
+        """
+        bash {params.script} {params.output_dir}
+        """
+rule download_with_r:
+    output:
+        output = "raw_data/{dataset}.RData"
+    params:
+        script = lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key="download_script"),
+    shell:
+        """
+        Rscript {params.script} {output} {wildcards.dataset}
+        """
+
+rule process_to_adata:
+    input:
+        raw_file=lambda wildcards: "raw_data/{dataset}/.done" 
+            if cfg.get_from_dataset(wildcards.dataset, key="download_script").endswith(".sh") 
+            else "raw_data/{dataset}.RData"
+    output:
+        processed_file="processed_adata/{dataset}.h5ad"
+    params:
+        script=lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key="process_script"),
+        input_dir=lambda wildcards: f"raw_data/{wildcards.dataset}/",
+    wildcard_constraints:
+        dataset="[a-zA-Z0-9]+"  # Match only alphanumeric names without underscores
+    shell:
+        """
+        python {params.script} {params.input_dir} {output.processed_file} {input.raw_file}
+        """
+
+rule process_to_adata_multi:
+    input:
+        raw_dir="raw_data/{dataset}/.done"
+    output: processed_file = "processed_adata/{dataset}-{subdata}.h5ad"
+    params:
+        script=lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key="process_script"),
+        input_dir=lambda wildcards: f"raw_data/{wildcards.dataset}",
+        subdata=lambda wildcards: wildcards.subdata
+    shell:
+        """
+        python {params.script} {params.input_dir} {output.processed_file} {params.subdata}
+        """
+
+
+rule get_transfer_learning_model:
+    output:
+        models = "transfer_learning/models/{version}-scvi-{organism}/scvi.model/model.pt"
+    params:
+        version="{version}",  # Model version
+        organism="{organism}"  # Organism
+    shell:
+        """
+        aws s3 cp --no-sign-request --no-progress --only-show-errors \
+        s3://cellxgene-contrib-public/models/scvi/{params.version}/{params.organism}/model.pt \
+        {output}
+        """
+
+
+rule get_embeddings:
+    output: 
+        ref_embedding = "transfer_learning/ref_embeddings/{organism}/{tissue}/scvi_embedding.h5ad"
+    params:
+        version = cfg.get_from_tl('census_version'),
+        dataset_ids = cfg.get_data_ids_cellxgene()
+    conda: "my-environment.yaml"
+    script:
+        "scripts/get_embeddings.py"
+
+
+
+rule get_latent_representation:
+    input:
+        silver_standard = "processed_adata/{dataset}.h5ad",
+        model = lambda wildcards: f"transfer_learning/models/{cfg.get_from_tl('census_version')}-scvi-{cfg.get_from_dataset(wildcards.dataset, key='organism')}/scvi.model"
+    output:
+        adata_embedding = "transfer_learning/silver_datasets/{dataset}/{dataset}-emb.h5ad",
+    wildcard_constraints:
+        dataset = "|".join(cfg.get_silver_standard())  # Only allow "silver" datasets
+    conda: "my-environment-scvi.yaml"
+    script:
+        "scripts/get_latent_rep.py"
+
+rule get_labels_from_classifier:
+    input:
+        orig_adata = "processed_adata/{dataset}.h5ad",
+        adata_embedding = "transfer_learning/silver_datasets/{dataset}/{dataset}-emb.h5ad",
+        ref_embedding = lambda wildcards: f"transfer_learning/ref_embeddings/{cfg.get_from_dataset(wildcards.dataset, key='organism')}/{cfg.get_from_dataset(wildcards.dataset, key='tissue')}/scvi_embedding.h5ad"
+    output:
+        new_labels = "transfer_learning/silver_datasets/{dataset}/{dataset}-new_lab.h5ad"
+    conda: "my-environment-classifier.yaml"
+    script:
+        "scripts/get_new_labels.py"
+
+
+
+rule check_output:
+    input: 
+        file1= "/work/Master_Project/processed_data/{dataset}.h5ad",
+        file2 = "processed_adata/{dataset}.h5ad"
+    output:
+        result="comparison_result.txt"
+    shell:
+        """
+        if cmp --silent {input.file1} {input.file2}; then
+            echo "True" > {output.result};
+        else
+            echo "False" > {output.result};
+        fi
+        """
+        
+
+
+# rule all:
+#     #input: ['analysis/metrics/Zheng/Zheng/louvain/umap/euclidean/5k.summary.txt','analysis/metrics/Jung/Jung/louvain/umap/euclidean/30k.summary.txt']
+#     input: gather_outputs(),"merged_metrics.pkl"
+
+
+
+# rule preprocess_data:
+#     input: "/work/Master_Project/processed_data/{dataset}/{data}.h5ad"
+#     output: "analysis/processed/{dataset}/{data}.h5ad"
+#     params: 
+#             input_rep = lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key='input_type')
+#     script: "scripts/preprocess.py"
+
+#rule batch_effect:
+
+# rule download_silver_standard:
+#     input: 
+
+
+# rule create_annotations:
+
+
+
+
+rule preprocess_adata:
+    input:
+        processed_adata=lambda wildcards: (
+            "/work/Master_Project/Snakemake/processed_adata/{dataset}.h5ad"
+            if cfg.get_from_dataset(wildcards.dataset, key="standard") == 'gold'
+            else "transfer_learning/silver_datasets/{dataset}/{dataset}-new_lab.h5ad"
+        )
+    output:
+        processing="benchmark_analysis/normalized_adata/{dataset}.h5ad"
+    params:
+        input_rep=lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key='input_type'),
+        batch_key=lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key='batch_labels'),
+        cell_label=lambda wildcards: cfg.get_from_dataset(wildcards.dataset, key='cell_labels'),
+        visualization="benchmark_analysis/visualization/batch_removal/{dataset}.png"
+    script: "scripts/preprocess.py"
+rule calculate_distances:
+    input: rules.preprocess_adata.output
+    output: "benchmark_analysis/distance/{dataset}/{sim_measure}.h5ad"
+    script:
+        "scripts/distance.py"
+rule generate_graph:
+    input: rules.calculate_distances.output
+    output: temp("benchmark_analysis/graphs/{dataset}/{graph_method}/{sim_measure}/{neighbors}k.h5ad")
+    #conda: "metric_2"
+    script: "scripts/graph.py"
+rule clustering:
+    input: rules.generate_graph.output
+    output: "benchmark_analysis/clustering/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.h5ad"
+#     output: cluster_data="analysis/clustering/{dataset}/{rep}/{method}/{k}n_{nn}/{clust_method}_{res}.h5ad"
+    params:
+        res = lambda wildcards: cfg.get_clustering_params(wildcards.clust_method, key='res'),
+        partition= lambda wildcards: cfg.get_clustering_params(wildcards.clust_method, key='partition_type')
+    script:"scripts/cluster.py"
+
+
+rule calculate_metrics:
+    input: rules.clustering.output 
+    output: "benchmark_analysis/metrics/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.summary.txt"  #it should be possible to do it per dataset 
+    params:
+            partition = lambda wildcards: cfg.get_clustering_params(wildcards.clust_method, key='partition_type'),
+            label_key = lambda wildcards: cfg.get_from_dataset(wildcards.dataset,key='cell_labels')                         
+    script: "scripts/calculate_metrics.py"
+
+def gather_existing_files():
+    # Dynamically find all matching files
+    return glob.glob("benchmark_analysis/metrics/*/*/*/*/*k.summary.txt")
+rule merge_result:
+    input:  gather_existing_files()
+    output:
+        "benchmark_analysis/all_results/merged_metrics.pkl"
+    run:
+        import pandas as pd
+        # Load and merge all matching files
+        dfs = []
+        for file in input:
+            df = pd.read_csv(file, sep="\t")  # Adjust separator as needed
+            parts = file.split("/")
+            df["dataset"] = parts[2]
+            df["clust_method"] = parts[3]
+            df["graph_method"] = parts[4]
+            df["sim_measure"] = parts[5]
+            df["neighbors"] = parts[6].split("k")[0]
+            dfs.append(df)
+
+        # Merge DataFrames
+        if dfs:
+            merged_df = pd.concat(dfs, ignore_index=True)
+        else:
+            merged_df = pd.DataFrame()  # Empty DataFrame if no files found
+
+        # Save merged DataFrame to output file
+        merged_df.to_pickle(output[0])
+
+
+# rule identify_best_combinations: 
+#     input: rule.calculate_metrics.output
+
+
+
+#rule robustness_assesment
+
+
+
+#rule graph_comparison
+
+
+#rule 
+
+
+
+#if input will be updated with some files from previous analysis, 
+#rule should be called and update summary.txt file
+
+
+
+
+#rule generate_graph:
+ #   input: data="processed_data/{dataset}.h5ad"
+  #  output: graph_gen="analysis/graphs/{dataset}_{k}_{rep}_{method}_{nn}.h5ad"
+   # script: "scripts/graph.py" 
+
+#rule cluster_graphs: 
+ #   input: data="analysis/graphs/{dataset}_{k}_{rep}_{method}_{nn}.h5ad"
+  #  output: clustering="analysis/clustering/{dataset}_{k}_{rep}_{method}_{nn}.h5ad"
