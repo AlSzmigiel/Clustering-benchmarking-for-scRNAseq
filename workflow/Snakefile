@@ -14,10 +14,8 @@ cfg = PrepConfig(config)
 def get_all_outputs(cfg):
     output_snakemake = []
     for dataset in cfg.get_subdata_names():
-        # Check if the dataset file exists in benchmark_analysis/normalized_data
         dataset_file = os.path.join("results","benchmark_analysis", "processed_normalized_data", f"{dataset}.h5ad")
         if os.path.isfile(dataset_file):
-            # Only if the file exists do we call get_possible_output and expand
             wildcards = cfg.get_possible_output(dataset)
             expanded_outputs = expand(
                 "results/benchmark_analysis/evaluation/{dataset}/{clust_method}/{graph_method}/{sim_measure}/{neighbors}k.summary.txt",
@@ -25,11 +23,9 @@ def get_all_outputs(cfg):
             )
             output_snakemake.extend(expanded_outputs)
         else:
-            # If the file does not exist, skip this dataset
             continue
     return output_snakemake
 
-print(get_all_outputs(cfg))
 
 include:'rules/get_benchmark_datasets.smk'
 include: 'rules/mitigate_bias_silver_standard.smk'
@@ -40,36 +36,10 @@ include: 'rules/benchmark_clustering.smk'
 include: 'rules/benchmark_evaluate.smk'
     
 
-
-
 rule all:
     input:
         expand("data/processed_adata/{dataset}.h5ad", dataset=cfg.get_subdata_names()),
         expand("data/enhanced_silver_standard/{dataset}-new_lab.h5ad", dataset=cfg.get_silver_standard()),
         expand("results/benchmark_analysis/pairwise_similarity/{dataset}/{sim_measure}.h5ad",dataset=cfg.get_subdata_names(), sim_measure=cfg.get_graph_parameters("sim_measure")),
         get_all_outputs(cfg)
-        #expand("results/benchmark_analysis/graphs/{dataset}/{graph_method}/{sim_measure}/{neighbors}k.h5ad",dataset=cfg.get_subdata_names(), sim_measure=cfg.get_graph_parameters("sim_measure") )
-       # expand("resources/models/{version}-scvi-{organism}/scvi.model/model.pt",
-        #     version=cfg.get_from_tl('census_version'),
-         #    organism=cfg.get_from_tl('organism')
-         #),
-        #expand(
-        #    "resources/ref_embeddings/{organism}/{tissue}/scvi_embedding.h5ad",zip,organism=[pair[0] for pair in cfg.get_valid_organism_tissue_pairs()],
-        #     tissue=[pair[1] for pair in cfg.get_valid_organism_tissue_pairs()]
-        #),
-        #expand("data/projected_embeddings/{dataset}-emb.h5ad",dataset=cfg.get_silver_standard()),
 
-        
-
-
-
-
-
-#rule generate_graph:
- #   input: data="processed_data/{dataset}.h5ad"
-  #  output: graph_gen="analysis/graphs/{dataset}_{k}_{rep}_{method}_{nn}.h5ad"
-   # script: "scripts/graph.py" 
-
-#rule cluster_graphs: 
- #   input: data="analysis/graphs/{dataset}_{k}_{rep}_{method}_{nn}.h5ad"
-  #  output: clustering="analysis/clustering/{dataset}_{k}_{rep}_{method}_{nn}.h5ad"
