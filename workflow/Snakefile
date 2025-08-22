@@ -3,21 +3,13 @@ sys.path.append("workflow/scripts")
 from itertools import product
 import glob
 import os
-
+workflow.source_path("scripts/parse_config.py")
 from parse_config import PrepConfig
 configfile: "config/config.yaml"
 
 
-#import parse_config
-#from parse_config import *
-
-
-
-# Snakefile
-
 cfg = PrepConfig(config)
 
-#print(pc_path)
 
 
 
