@@ -1,16 +1,16 @@
-import sys
-sys.path.append("workflow/scripts")
-from itertools import product
-import glob
-import os
-workflow.source_path("scripts/parse_config.py")
-from parse_config import PrepConfig
+
 configfile: "config/config.yaml"
 
-
+include:'rules/common.smk'
 cfg = PrepConfig(config)
-
-
+include:'rules/get_benchmark_datasets.smk'
+include: 'rules/mitigate_bias_silver_standard.smk'
+include: 'rules/benchmark_preprocessing.smk'
+include: 'rules/benchmark_pairwise_similarity.smk'
+include: 'rules/benchmark_graph_construction.smk'
+include: 'rules/benchmark_clustering.smk'
+include: 'rules/benchmark_evaluate.smk'
+    
 
 
 def get_all_outputs(cfg):
@@ -28,14 +28,7 @@ def get_all_outputs(cfg):
             continue
     return output_snakemake
 
-include:'rules/get_benchmark_datasets.smk'
-include: 'rules/mitigate_bias_silver_standard.smk'
-include: 'rules/benchmark_preprocessing.smk'
-include: 'rules/benchmark_pairwise_similarity.smk'
-include: 'rules/benchmark_graph_construction.smk'
-include: 'rules/benchmark_clustering.smk'
-include: 'rules/benchmark_evaluate.smk'
-    
+
 
 rule all:
     input:
