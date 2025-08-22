@@ -35,5 +35,6 @@ rule all:
         expand("data/processed_adata/{dataset}.h5ad", dataset=cfg.get_subdata_names()),
         expand("data/enhanced_silver_standard/{dataset}-new_lab.h5ad", dataset=cfg.get_silver_standard()),
         expand("results/benchmark_analysis/processed_normalized_data/{dataset}.h5ad",dataset=cfg.get_subdata_names()),
+        expand("resources/models/{version}-scvi-{organism}/scvi.model/model.pt",version=cfg.get_from_tl('census_version'),
+        organism=cfg.get_from_tl('organism')),
         get_all_outputs(cfg)
-
