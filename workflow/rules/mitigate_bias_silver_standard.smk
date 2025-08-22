@@ -28,7 +28,7 @@ rule get_reference_embeddings:
 rule project_to_embeddings:
     input:
         silver_standard = "data/processed_adata/{dataset}.h5ad",
-        model = lambda wildcards: f"resources/models/{cfg.get_from_tl('census_version')}-scvi-{cfg.get_from_dataset(wildcards.dataset, key='organism')}/scvi.model"
+        model = lambda wildcards: f"resources/models/{cfg.get_from_tl('census_version')}-scvi-{cfg.get_from_dataset(wildcards.dataset, key='organism')}/scvi.model/model.pt"
     output:
         adata_embedding = "data/projected_embeddings/{dataset}-emb.h5ad",
     wildcard_constraints:
