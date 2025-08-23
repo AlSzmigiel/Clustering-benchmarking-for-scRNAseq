@@ -1,11 +1,3 @@
----
-
-```markdown
-# Snakemake Workflow: `snakemake_test`
-
-This repository contains a reproducible bioinformatics workflow built using [Snakemake](https://snakemake.readthedocs.io/). It leverages the powerful environment management capabilities of `mamba`, `conda`, and `bioconda`, and includes tools for deploying workflows and single-cell RNA-seq data analysis.
-
----
 
 #  Environment Setup
 
