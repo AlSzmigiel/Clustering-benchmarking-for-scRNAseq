@@ -1,16 +1,5 @@
 ROOT: 'Snakemake'
 
-#dataset_dir: 'processed_data'
-
-#neighbors : [5]
-#graph_method: ['umap']
-#reps: ['X']
-#nns: [True]
-#clust_method: ['leiden']
-#resolution: [1.2]
-
-
-
 
 DATASETS:
     # TabulaMurisHeart_cxg:
@@ -38,8 +27,8 @@ DATASETS:
     #   tissue: liver
     
     # BaronPancreasData:
-    #   download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
+    #   download_script: "../workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "../workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
     #   subdatasets:
     #   cell_labels: predicted_cell_type
     #   data_type: 
@@ -48,8 +37,8 @@ DATASETS:
     #   organism: homo_sapiens
     #   tissue: pancreas
     # RomanovBrainData:
-    #   download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
+    #   download_script: "../workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
     #   subdatasets:
     #   cell_labels: predicted_cell_type
     #   data_type: raw
@@ -59,8 +48,8 @@ DATASETS:
     #   organism: mus_musculus
     #   tissue: brain
     # UsoskinBrainData:
-    #   download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
     #   subdatasets:
     #   cell_labels: predicted_cell_type
     #   data_type: raw
@@ -70,8 +59,8 @@ DATASETS:
     #   organism: mus_musculus
     #   tissue: brain
     # DarmanisBrainData:
-    #   download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
     #   subdatasets:
     #   cell_labels: predicted_cell_type
     #   data_type: raw
@@ -81,8 +70,8 @@ DATASETS:
     #   organism: homo_sapiens
     #   tissue: brain
     # SegerstolpePancreasData:
-    #   download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
     #   subdatasets:
     #   cell_labels: predicted_cell_type
     #   data_type: raw
@@ -92,8 +81,8 @@ DATASETS:
     #   organism: homo_sapiens
     #   tissue: pancreas
     # TasicBrainData:
-    #   download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
     #   subdatasets:
     #   cell_labels: predicted_cell_type
     #   data_type: raw
@@ -102,61 +91,41 @@ DATASETS:
     #   standard: silver
     #   organism: mus_musculus
     #   tissue: brain
-    ZeiselBrainData:
-      download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-      process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
-      subdatasets:
-      cell_labels: predicted_cell_type
-      data_type: raw
-      batch_labels:
-      standard: silver
-      organism: mus_musculus
-      tissue: brain
-    XinPancreasData:
-      download_script: "workflow/scripts/data_scripts/download_data/get_data.R"
-      process_script: "workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
-      subdatasets:
-      cell_labels: predicted_cell_type
-      data_type: raw
-      batch_labels:
-      standard: silver
-      organism: homo_sapiens
-      tissue: pancreas
-    # Jung:
+    # ZeiselBrainData:
+    #   download_script: "..workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
     #   subdatasets:
-    #   download_script: "workflow/scripts/data_scripts/download_data/jung.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/jung.py"
-    #   path: /work/Master_Project/processed_data/Jung.h5ad
-    #   cell_labels: label
+    #   cell_labels: predicted_cell_type
     #   data_type: raw
     #   batch_labels:
-    #   standard: gold
+    #   standard: silver
     #   organism: mus_musculus
-    #   tissue: testis
-    # sc_Celseq2_5cl_p1:
-    #   download_script: /work/Master_Project/bash_scripts/tian.sh
-    #   path:  /work/Master_Project/processed_data/sc_Celseq2_5cl_p1.h5ad
-    #   cell_labels: cell_line_demuxlet
-    #   input_type: raw
-    #   normalization:
+    #   tissue: brain
+    # XinPancreasData:
+    #   download_script: "..workflow/scripts/data_scripts/download_data/get_data.R"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/sce_to_adata.py"
+    #   subdatasets:
+    #   cell_labels: predicted_cell_type
+    #   data_type: raw
     #   batch_labels:
-    # sc_Celseq2_5cl_p2:
-    #   download_script: /work/Master_Project/bash_scripts/tian.sh
-    #   path:  /work/Master_Project/processed_data/sc_Celseq2_5cl_p2.h5ad
-    #   cell_labels: cell_line_demuxlet
-    #   input_type: raw
-    #   normalization:
-    #   batch_labels:
-    # sc_Celseq2_5cl_p3:
-    #   download_script: /work/Master_Project/bash_scripts/tian.sh
-    #   path:  /work/Master_Project/processed_data/sc_Celseq2_5cl_p3.h5ad
-    #   cell_labels: cell_line_demuxlet
-    #   input_type: raw
-    #   normalization:
-    #   batch_labels:
+    #   standard: silver
+    #   organism: homo_sapiens
+    #   tissue: pancreas
+    Jung:
+      subdatasets:
+      download_script: "..workflow/scripts/data_scripts/download_data/jung.sh"
+      process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/jung.py"
+      path: /work/Master_Project/processed_data/Jung.h5ad
+      cell_labels: label
+      data_type: raw
+      batch_labels:
+      standard: gold
+      organism: mus_musculus
+      tissue: testis
+
     # Tian:
-    #   download_script: "workflow/scripts/data_scripts/download_data/tian.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/tian.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/tian.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/tian.py"
     #   subdatasets: [sc_Celseq2_5cl_p3,sc_Celseq2_5cl_p2, sc_Celseq2_5cl_p1, sce_sc_10x_5cl_qc, sce_sc_10x_qc, sce_sc_CELseq2_qc, sce_sc_Dropseq_qc]
     #   cell_labels: cell_line_demuxlet
     #   data_type: raw
@@ -166,33 +135,10 @@ DATASETS:
     #   tissue: lung
 
 
-    # # sce_sc_10x_5cl_qc:
-    # #   path:  /work/Master_Project/processed_data/sce_sc_10x_5cl_qc.h5ad
-    # #   labels: cell_line_demuxlet
-    # #   input_type: raw
-    # #   normalization:
-    
-    # # sce_sc_10x_qc:
-    # #   path:  /work/Master_Project/processed_data/sce_sc_10x_qc.h5ad
-    # #   labels: cell_line_demuxlet
-    # #   input_type: raw
-    # #   normalization:
-
-    # # sce_sc_CELseq2_qc:
-    # #   path:  /work/Master_Project/processed_data/sce_sc_CELseq2_qc.h5ad
-    # #   labels: cell_line_demuxlet
-    # #   input_type: raw
-    # #   normalization:
-    
-    # # sce_sc_Dropseq_qc:
-    # #   path:  /work/Master_Project/processed_data/sce_sc_Dropseq_qc.h5ad
-    # #   labels: cell_line_demuxlet
-    # #   input_type: raw
-    # #   normalization:
 
     # Zheng:
-    #   download_script: "workflow/scripts/data_scripts/download_data/zheng.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/zheng.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/zheng.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/zheng.py"
     #   subdatasets:
     #   data_type: raw
     #   standard: gold
@@ -201,8 +147,8 @@ DATASETS:
     #   batch_labels:
     #   cell_labels: label    
     # Yan:
-    #   download_script: "workflow/scripts/data_scripts/download_data/yan.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/yan.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/yan.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/yan.py"
     #   subdatasets:
     #   cell_labels: cell_labels
     #   data_type: rpkm
@@ -212,27 +158,17 @@ DATASETS:
     #   tissue: embryo
     # Biase:
     #   subdatasets:
-    #   download_script: "workflow/scripts/data_scripts/download_data/biase.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/biase.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/biase.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/biase.py"
     #   cell_labels: cell_type
     #   data_type: fpkm
     #   standard: gold
     #   organism: mus_musculus
     #   tissue: embryo
     #   batch_labels:
-    Biase_random_1:
-      subdatasets:
-      download_script: 
-      process_script: 
-      cell_labels: cell_type
-      data_type: fpkm
-      standard: gold
-      organism: mus_musculus
-      tissue: embryo
-      batch_labels:
     # Deng:
-    #   download_script: "workflow/scripts/data_scripts/download_data/deng.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/deng.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/deng.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/deng.py"
     #   subdatasets: 
     #   cell_labels: cell_labels
     #   data_type: raw
@@ -241,8 +177,8 @@ DATASETS:
     #   organism: mus_musculus
     #   tissue: embryo
     # Kolodziejczyk:
-    #   download_script: "workflow/scripts/data_scripts/download_data/kolodziejczyk.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/kolodziejczyk.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/kolodziejczyk.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/kolodziejczyk.py"
     #   subdatasets: 
     #   cell_labels: cell_labels
     #   data_type: raw
@@ -251,8 +187,8 @@ DATASETS:
     #   organism: mus_musculus
     #   tissue: embryo
     # Koh:
-    #   download_script: "workflow/scripts/data_scripts/download_data/koh.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/koh.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/koh.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/koh.py"
     #   subdatasets: 
     #   cell_labels: cell_labels
     #   data_type: tpm
@@ -262,9 +198,8 @@ DATASETS:
     #   tissue: embryo stem cells
 
     # Goolam:
-    #   #path: /work/Master_Project/processed_data/Goolam.h5ad
-    #   download_script: "workflow/scripts/data_scripts/download_data/goolam.sh"
-    #   process_script: "workflow/scripts/data_scripts/process_raw_to_adata/goolam.py"
+    #   download_script: "..workflow/scripts/data_scripts/download_data/goolam.sh"
+    #   process_script: "..workflow/scripts/data_scripts/process_raw_to_adata/goolam.py"
     #   subdatasets: 
     #   cell_labels: cell_labels
     #   data_type: raw
